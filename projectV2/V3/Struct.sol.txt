@@ -1,0 +1,48 @@
+pragma solidity ^0.4.19;
+
+contract Struct {
+
+    // contante
+
+    address ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address BANK = 0xdD870fA1b7C4700F2BD7f44238821C26f7392148;
+
+    // mapping
+
+    mapping (address => Ticket[]) ticketListArray;
+    Ticket[] ticketList = ticketListArray[ADMIN];
+
+
+    mapping (address => uint[]) myTicketList;
+
+
+    mapping (address => controlHistory[]) controlListArray;
+    controlHistory[] controlList = controlListArray[ADMIN];
+
+    mapping (address => string[]) levelListArray;
+    string[] levelList = levelListArray[ADMIN];
+
+
+    mapping (address => string[]) gameListArray;
+    string[] gameList = gameListArray[ADMIN];
+
+
+    // structure 
+
+    struct Ticket{
+        uint id;
+        address customer;
+        uint dateCreation;
+        uint level;
+        uint game;
+    }
+
+    struct controlHistory {
+        uint id;
+        uint idTicket;
+        uint idGame;
+        uint idControl;
+        uint dateControl;
+    }
+
+}

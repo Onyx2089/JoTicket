@@ -1,0 +1,52 @@
+pragma solidity ^0.4.19;
+
+contract Struct {
+
+    // contante
+
+    address ADMIN = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+
+    // mapping
+
+    mapping (address => Ticket[]) ticketListArray;
+    Ticket[] ticketList = ticketListArray[ADMIN];
+
+
+    mapping (address => uint[]) myTicketList;
+
+
+    mapping (address => controlHistory[]) controlList;
+
+
+    mapping (address => string[]) public gameListArray;
+    string[] gameList = gameListArray[ADMIN];
+
+    function setGameDefault() public
+    {
+        gameList.push("Course");
+        gameList.push("Escalade");
+        gameList.push("Foot");
+    }
+
+    // structure 
+
+    struct Ticket{
+        uint id;
+        address customer;
+        string name;
+        uint dateCreation;
+        uint level;
+    }
+
+    struct controlHistory {
+        uint id;
+        uint idTicket;
+        string controlName;
+        uint dateControl;
+    }
+
+    struct test {
+        uint id;
+        string name;
+    }
+}

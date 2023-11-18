@@ -1,0 +1,54 @@
+pragma solidity ^0.4.19;
+
+contract JoStructs {
+
+    
+    
+    struct Ticket{
+        uint id;
+        address customer;
+        string name;
+        uint dateCreation;
+        uint level;
+    }
+    
+    struct ControlPoint {
+        uint id;
+        uint level;
+        string name;
+    }
+
+/*
+    struct Controlleur {
+        uint id;
+        address human;
+        string name;
+        string firstName;
+        uint accessLevel;
+    }
+*/
+
+    struct ControlList {
+        uint id;
+        uint idTicket;
+        uint idControlleur;
+        //TicketLevel level;
+        //uint level;
+        uint state;
+        string dateControl;
+    }
+
+/*
+    struct TicketLevel {
+        uint id;
+        string name;
+        uint value;
+    }
+
+    struct Game {
+        uint id;
+        string name;
+    }
+*/
+
+}

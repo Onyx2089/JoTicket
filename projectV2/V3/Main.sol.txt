@@ -1,0 +1,207 @@
+pragma solidity ^0.4.19;
+
+import "Struct.sol";
+
+contract Main is Struct{
+
+    // initialisation
+    constructor() public
+    {
+        gameList.push("Course");
+        gameList.push("Escalade");
+        gameList.push("Foot");
+
+        levelList.push("Entrée");
+        levelList.push("Détecteur de métaux");
+        levelList.push("Fouille au corps");
+    }
+
+    // function getSize
+
+    function getSizeAllTicket() public view returns (uint)
+    {
+        if(isAdmin())
+        {
+            return ticketList.length;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    function getSizeMyTickey() public view returns (uint)
+    {
+        return myTicketList[msg.sender].length;
+    }
+
+    function getSizeLevel() public view returns (uint)
+    {
+        return levelList.length;
+    }
+
+    function getSizeGame() public view returns (uint)
+    {
+        return gameList.length;
+    }
+
+    // function getName
+
+    function getNameLevel(uint _gameIndex) public view returns (string)
+    {
+        if(_gameIndex > getSizeLevel() || _gameIndex == 0 )
+        {
+            return "Incorect";
+        }
+        else
+        {
+            return levelList[_gameIndex - 1 ];
+        }
+
+    }
+
+    function getNameGameTicket(uint _nbrTicket) public view returns (string)
+    {
+        if(!isAdmin())
+        {
+            uint _idTicket = myTicketList[msg.sender][_nbrTicket - 1];
+            
+            for(uint _index = 0; _index < ticketList.length; _index++)
+            {
+               if(ticketList[_index].id == _idTicket)
+               {
+                   return gameList[ticketList[_index].game];
+               }
+            }
+        }
+        return "Nop";
+    }
+    
+    function getNameGame(uint _gameIndex) public view returns (string)
+    {
+        if(_gameIndex > getSizeGame() || _gameIndex == 0 )
+        {
+            return "Incorect";
+        }
+        else
+        {
+            return gameList[_gameIndex - 1 ];
+        }
+
+    }
+
+
+    // function pour les admin
+
+    function isAdmin() public view returns (bool)
+    {
+        if(msg.sender == ADMIN)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function checkInListGame(uint _gameIndex) private view returns (bool)
+    {
+        if(_gameIndex <= getSizeGame() && _gameIndex != 0 )
+        {
+            _gameIndex--;
+
+            for(uint _index = 0; _index < gameList.length; _index++)
+            {
+                if(keccak256(abi.encodePacked(gameList[_gameIndex])) == keccak256(abi.encodePacked(gameList[_index])))
+                {
+                    return true;
+                }                
+            }
+        }
+
+        return false;
+    }
+    
+    function getLevelTicket(uint _ticketIndex) public view returns (string)
+    {
+        if(isAdmin())
+        {  
+            return levelList[ticketList[_ticketIndex - 1].level];     
+        }
+        else
+        {
+            return "Accès interdit";
+        }
+    }
+
+    function setLevelTicket(uint _ticketIndex, uint _levelIndex) public 
+    {
+        if(isAdmin())
+        {
+            
+            if(ticketList[_ticketIndex - 1].level + 1 == _levelIndex)
+            {
+                ticketList[_ticketIndex - 1].level = _levelIndex;
+
+                controlHistory memory history;
+                history.id = uint(keccak256(abi.encode(now)));
+                history.idTicket = ticketList[_ticketIndex - 1].id;
+                history.idGame = ticketList[_ticketIndex - 1].game;
+                history.idControl = _levelIndex - 1;
+                history.dateControl = now;
+
+                controlList.push(history);
+     
+            }
+
+        }
+    }
+
+    // function pour les clients
+
+    function buyTicket(uint _gameIndex) public payable
+    {
+
+        if(!isAdmin())
+        {
+            if(_gameIndex <= getSizeGame() && _gameIndex > 0 )
+            {
+                require(msg.value == 1 ether);
+        
+                Ticket memory newTicket;
+                newTicket.id = uint(keccak256(abi.encode(now)));
+                newTicket.customer = msg.sender;
+                newTicket.dateCreation = now;
+                newTicket.level = 1;
+                newTicket.game = _gameIndex - 1;
+
+                ticketList.push(newTicket);
+                myTicketList[msg.sender].push(newTicket.id);
+
+                address(BANK).send(msg.value);
+            }
+        }
+    }
+    
+    function enterWithTicket(uint _nbrTicket) public view returns (string)
+    {
+        if(!isAdmin())
+        {
+            uint _idTicket = myTicketList[msg.sender][_nbrTicket - 1];
+            
+            for(uint _index = 0; _index < ticketList.length; _index++)
+            {
+               if(ticketList[_index].id == _idTicket)
+               {
+                   if(ticketList[_index].level == levelList.length)
+                   {
+                       return "Bon spectacle";
+                   }
+               }
+            }
+        }
+        return "Dehors";
+    }
+
+}

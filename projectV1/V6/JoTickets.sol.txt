@@ -1,0 +1,92 @@
+pragma solidity ^0.4.19;
+//pragma experimental ABIEncoderV2;
+
+import "Functions.sol";
+
+contract JeuxOlympiques is JoFonctions {
+
+    //mapping (address => uint[]) ticketCustomers;
+    //mapping (address => Ticket[]) ticketControleur;
+    
+    function buyTicket(string _name) public
+    {
+        if(!isAdmin())
+        {
+            if(ticketCustomerId[msg.sender] == 0)
+            {
+                if(bytes(_name).length != 0)
+                {
+                    
+                    uint _idTicket = uint(keccak256(abi.encode(_name)));
+                    address _customer = msg.sender;
+                    uint _date = now;
+
+                    Ticket newTicket;
+                    newTicket.id = _idTicket;
+                    newTicket.customer = _customer;
+                    newTicket.name = _name;
+                    newTicket.dateCreation = _date;
+                    newTicket.level = 0;
+                    
+                    ticketCustomerId[msg.sender] = newTicket.id;
+                    ticketControleur[WithListControlleur[0]].push(newTicket);
+
+                }
+            }
+        }
+    }
+
+    
+    function getTicketId() public view returns (uint)
+    {
+        return ticketCustomerId[msg.sender];
+    }
+
+/*
+    function getTicketId() public view returns (uint)
+    {
+        return ticketCustomerId[msg.sender];
+    }
+*/
+
+    function enterInGame(uint _idTicket) public view returns (string)
+    {
+        uint _index = 0;
+
+
+        //return ticketControleur[WithListControlleur[0]].length;
+
+        
+        while (ticketControleur[WithListControlleur[0]].length > _index)
+        {
+            Ticket myTicket;
+            myTicket = ticketControleur[WithListControlleur[0]][_index];
+
+            if(myTicket.id == _idTicket)
+            {
+                if(myTicket.customer == msg.sender)
+                {
+                    if(myTicket.level == 3)
+                    {
+                        return "Welcome";
+                    }
+                    else
+                    {
+                        //return myTicket.level.toString();
+                        return "Good bye";
+                    }
+
+                    //return myTicket.name;
+                }
+                //return "Here";
+            }
+
+            _index++;
+        }
+        
+
+        return "Error";
+    }
+
+
+}

@@ -1,0 +1,44 @@
+pragma solidity ^0.4.19;
+
+import "Struct.sol";
+
+contract JoFonctions is JoStructs {
+
+    address[] WithListControlleur = [0x5B38Da6a701c568545dCfcB03FcB875f56beddC4];
+    
+    /*
+    mapping (address => uint)  values;
+
+    function setValue(uint value) public
+    {
+        values[msg.sender] = value;
+    }
+
+    function getValue() public view returns (uint)
+    {
+        return values[msg.sender];
+    }
+    */
+
+    function isAdmin() public view returns (bool)
+    {
+        uint index = 0;
+
+        while (WithListControlleur.length > index)
+        {
+            if(WithListControlleur[index] == msg.sender)
+            {
+                return true;
+            }
+
+            index++;
+        }
+
+        return false;
+    }
+    
+    function dateTest() public view returns (uint)
+    {
+        return now;
+    }
+}    

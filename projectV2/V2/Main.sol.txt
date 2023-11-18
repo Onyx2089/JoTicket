@@ -1,0 +1,119 @@
+pragma solidity ^0.4.19;
+
+import "Struct.sol";
+
+contract Main is Struct{
+
+    // initialisation
+    function initialize() public
+    {
+        if(isAdmin())
+        {
+            setGameDefault();     
+        }
+    }
+
+    // function pour les admins
+
+    function isAdmin() public view returns (bool)
+    {
+        if(msg.sender == ADMIN)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function checkInListGame(uint _gameIndex) public view returns (bool)
+    {
+        if(_gameIndex <= getNbrGame() && _gameIndex != 0 )
+        {
+            _gameIndex--;
+
+            for(uint _index = 0; _index < gameList.length; _index++)
+            {
+                if(keccak256(abi.encodePacked(gameList[_gameIndex])) == keccak256(abi.encodePacked(gameList[_index])))
+                {
+                    return true;
+                }                
+            }
+        }
+
+        return false;
+    }
+
+    function getAllTicketNbr() public view returns (uint)
+    {
+        return ticketList.length;
+    }
+
+    // function pour les clients
+
+    function buyTicket(string _name) public 
+    {
+        if(!isAdmin())
+        {
+            if(bytes(_name).length != 0)
+            {
+
+                Ticket memory newTicket;
+                newTicket.id = uint(keccak256(abi.encode(_name)));
+                newTicket.customer = msg.sender;
+                newTicket.name = _name;
+                newTicket.dateCreation = now;
+                newTicket.level = 1;
+
+                ticketList.push(newTicket);
+                myTicketList[msg.sender].push(newTicket.id);
+                //return gameList.length;
+            }
+            
+        }
+    }
+
+    function getMyTicketNbr() public view returns (uint)
+    {
+        return myTicketList[msg.sender].length;
+    }
+    
+    function enterWithTicket(uint _nbrTicket) public view returns (string)
+    {
+        if(!isAdmin())
+        {
+            uint _idTicket = myTicketList[msg.sender][_nbrTicket - 1];
+            //return _idTicket;
+            
+            for(uint _index = 0; _index < ticketList.length; _index++)
+            {
+               if(ticketList[_index].id == _idTicket)
+               {
+                   return ticketList[_index].name;
+               }
+            }
+        }
+        return "Nop";
+    }
+
+    function getNbrGame() public view returns (uint)
+    {
+        return gameList.length;
+    }
+    
+    function getNameGame(uint _gameIndex) public view returns (string)
+    {
+        if(_gameIndex > getNbrGame() || _gameIndex == 0 )
+        {
+            return "Incorect";
+        }
+        else
+        {
+            return gameList[_gameIndex - 1 ];
+            //return "C est bon";
+        }
+
+    }
+
+}

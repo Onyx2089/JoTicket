@@ -1,0 +1,63 @@
+pragma solidity ^0.4.19;
+
+contract JeuxOlympiques {
+
+    struct Ticket{
+        uint id;
+        address customer;
+        string name;
+        string firstName;
+        string email;
+        TicketLevel level;
+        //uint level;
+        string dateCreation;
+    }
+
+    struct ControlPoint {
+        uint id;
+        uint level;
+        string name;
+    }
+
+    struct Controlleur {
+        uint id;
+        address human;
+        string name;
+        string firstName;
+        uint accessLevel;
+    }
+
+    struct ControlList {
+        uint id;
+        uint idTicket;
+        uint idControlleur;
+        TicketLevel level;
+        //uint level;
+        uint state;
+        string dateControl;
+    }
+
+    struct TicketLevel {
+        uint id;
+        string name;
+        uint value;
+    }
+
+    function newTicket( string memory name, string memory firstName, string memory email) public view returns (address) 
+    {
+        
+        //return uint(keccak256(abi.encode(name, firstName, email)));
+
+        if(bytes(name).length != 0 && bytes(firstName).length != 0 && bytes(email).length != 0)
+        {
+            uint idTicket = uint(keccak256(abi.encode(name, firstName, email)));
+            address customer = msg.sender;
+            
+            return "Success";
+        }
+        
+        return "Error";
+        
+    }
+
+}

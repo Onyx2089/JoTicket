@@ -1,0 +1,84 @@
+pragma solidity ^0.4.19;
+
+import "Struct.sol";
+
+contract JoFonctions is JoStructs {
+
+    mapping (address => uint) ticketCustomerId;
+    mapping (address => Ticket[]) ticketControleur;
+
+    address[] WithListControlleur = [0x5B38Da6a701c568545dCfcB03FcB875f56beddC4];
+
+    string[] ControlPointList = ["One", "Two", "Three"];
+    
+
+    function isAdmin() public view returns (bool)
+    {
+        uint index = 0;
+
+        while (WithListControlleur.length > index)
+        {
+            if(WithListControlleur[index] == msg.sender)
+            {
+                return true;
+            }
+
+            index++;
+        }
+
+        return false;
+    }
+    
+    function AdminGetNbrControlPoints() public view returns (uint)
+    {
+        return ControlPointList.length;
+    }
+
+    function AdminSetLevel(uint _idTicket, uint _level)
+    {
+        uint _index = 0;
+
+        while (ticketControleur[WithListControlleur[0]].length > _index)
+        {
+            Ticket theTicket;
+            theTicket = ticketControleur[WithListControlleur[0]][_index];
+
+            if(theTicket.id == _idTicket)
+            {
+                theTicket.level = _level;
+            }
+
+            _index++;
+        }
+    }
+
+    function AdminGetLevel(uint _idTicket) public view returns (uint)
+    {
+        uint _index = 0;
+
+        while (ticketControleur[WithListControlleur[0]].length > _index)
+        {
+            Ticket theTicket2;
+            theTicket2 = ticketControleur[WithListControlleur[0]][_index];
+
+            if(theTicket2.id == _idTicket)
+            {
+                return theTicket2.level;
+            }
+
+            _index++;
+        }
+    }
+
+    /*
+    function AdminGetAllNumberTickets() public view returns (uint)
+    {
+        return  ticketControleur[WithListControlleur[0]].length;
+    }
+    function AdminGetTicketId(uint _index) public view returns (uint)
+    {
+        return ticketControleur[WithListControlleur[0]][_index].id;
+    }
+    */
+
+}    

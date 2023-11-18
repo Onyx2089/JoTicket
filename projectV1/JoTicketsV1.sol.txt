@@ -1,0 +1,25 @@
+pragma solidity ^0.4.19;
+
+//import "github.com/Arachnid/solidity-stringutils/strings.sol";
+
+contract JeuxOlympiques {
+
+    struct Ticket{
+        uint id;
+        address user;
+        uint state;
+    }
+
+    struct Check{
+        uint idTicket;
+        uint idCheckpoint;
+        uint time;
+    }
+
+    function buy(string one, string hey)public pure returns (string){
+        return one;
+        //return one.toSlice().concat("azerty".toSlice());
+        //return block.timestamp;
+    }
+
+}

@@ -1,0 +1,72 @@
+pragma solidity ^0.4.19;
+
+import "Functions.sol";
+
+contract JeuxOlympiques is JoFonctions {
+
+    address[] WithListControlleur = [0x5B38Da6a701c568545dCfcB03FcB875f56beddC4];
+
+    /*
+    struct Ticket{
+        uint id;
+        address customer;
+        string name;
+        string firstName;
+        string email;
+        TicketLevel level;
+        //uint level;
+        string dateCreation;
+    }
+    
+    
+    struct ControlPoint {
+        uint id;
+        uint level;
+        string name;
+    }
+
+    struct Controlleur {
+        uint id;
+        address human;
+        string name;
+        string firstName;
+        uint accessLevel;
+    }
+
+    struct ControlList {
+        uint id;
+        uint idTicket;
+        uint idControlleur;
+        TicketLevel level;
+        //uint level;
+        uint state;
+        string dateControl;
+    }
+
+    struct TicketLevel {
+        uint id;
+        string name;
+        uint value;
+    }
+
+    struct Game {
+        uint id;
+        string name;
+    }
+    */
+
+    function newTicket( string memory name, string memory firstName, string memory email) public view returns (string) 
+    {
+        
+        if(bytes(name).length != 0 && bytes(firstName).length != 0 && bytes(email).length != 0)
+        {
+            uint idTicket = uint(keccak256(abi.encode(name, firstName, email)));
+            address customer = msg.sender;
+            
+            return "Success";
+        }
+        
+        return "Error";
+    }
+
+}

@@ -1,0 +1,39 @@
+pragma solidity ^0.4.19;
+
+contract JoFonctions {
+
+    //address[] WithListControlleur = [0x5B38Da6a701c568545dCfcB03FcB875f56beddC4];
+
+
+    struct MonObjet {
+        uint monChamp1;
+        string monChamp2;
+    }
+
+    /*
+    function isAdmin() public view returns (bool)
+    {
+        uint index = 0;
+
+        
+        //return 0;
+         //WithListControlleur.length
+        while (WithListControlleur.length > index)
+        {
+            if(WithListControlleur[index] == msg.sender)
+            {
+                return true;
+            }
+
+            index++;
+        }
+
+        return false;
+        //return msg.sender;
+    }
+    */
+
+
+
+
+    

@@ -1,0 +1,50 @@
+pragma solidity ^0.4.19;
+//pragma experimental ABIEncoderV2;
+
+import "Functions.sol";
+
+contract JeuxOlympiques is JoFonctions {
+
+    mapping (address => uint[]) ticketCustomers;
+    mapping (address => Ticket[]) ticketControleur;
+    
+    function buyTicket(string _name) public
+    {
+        
+        if(bytes(_name).length != 0)
+        {
+            
+            uint _idTicket = uint(keccak256(abi.encode(_name)));
+            address _customer = msg.sender;
+            uint _date = now;
+
+            Ticket newTicket;
+            newTicket.id = _idTicket;
+            newTicket.customer = _customer;
+            newTicket.name = _name;
+            newTicket.dateCreation = _date;
+            newTicket.level = 0;
+            
+            ticketCustomers[msg.sender].push(newTicket.id);
+            ticketControleur[WithListControlleur[0]].push(newTicket);
+
+        }
+    }
+
+    
+    function AdminGetAllNumberTickets() public view returns (uint)
+    {
+        return  ticketControleur[WithListControlleur[0]].length;
+    }
+
+    function AdminGetTicket(address _customer, uint _index) public view returns (uint)
+    {
+        return ticketControleur[_customer][_index];
+    }
+    
+    function getNbrTickets() public view returns (uint)
+    {
+        return ticketCustomers[msg.sender].length;
+    }
+
+}
