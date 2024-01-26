@@ -38,5 +38,5 @@ Un smart contract sera mis en place pour gérer le système de contrôle des bil
 ## Bénéfices de la Blockchain
 La Blockchain offre une solution idéale pour stocker de manière sécurisée et immuable les informations d'identité de toutes les catégories. Le smart contract garantira l'automatisation du système de contrôle des billets pour les Jeux Olympiques 2024.
 
-## Déploiement et Soutenance
+## Déploiement 
 Le projet sera déployé sur un réseau de test, en l'occurrence, nous recommandons l'utilisation de POLYGON:Mumbai. L'IDE Remix sera utilisé lors de la soutenance pour démontrer la fonctionnalité complète du système, réalisé exclusivement en langage Solidity.
